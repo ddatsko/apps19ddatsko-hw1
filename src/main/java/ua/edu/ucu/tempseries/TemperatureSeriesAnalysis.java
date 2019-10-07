@@ -1,33 +1,73 @@
 package ua.edu.ucu.tempseries;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.pow;
+
 public class TemperatureSeriesAnalysis {
 
+    private double[] temperatures;
+
     public TemperatureSeriesAnalysis() {
+        temperatures = new double[0];
 
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-
+        temperatures = temperatureSeries;
     }
 
     public double average() {
-        return -1;
+        if (temperatures.length == 0)
+            throw new IllegalArgumentException();
+        double sum = 0;
+        for (double temperature : temperatures) {
+            sum += temperature;
+        }
+        return sum / temperatures.length;
     }
 
     public double deviation() {
-        return 0;
+        double mean = average();
+        double quadraticSum = 0;
+        for (double temperature : temperatures) {
+            quadraticSum += pow(abs(temperature - mean), 2);
+        }
+        return quadraticSum / temperatures.length;
     }
 
     public double min() {
-        return 0;
+        if (temperatures.length == 0)
+            throw new IllegalArgumentException();
+        double m = temperatures[0];
+        for (double temperature : temperatures)
+            m = Math.min(m, temperature);
+        return m;
     }
 
     public double max() {
-        return 0;
+        if (temperatures.length == 0)
+            throw new IllegalArgumentException();
+        double m = temperatures[0];
+        for (double temperature: temperatures)
+            m = Math.max(temperature, m);
+        return m;
     }
 
     public double findTempClosestToZero() {
-        return 0;
+        if (temperatures.length == 0)
+            throw new IllegalArgumentException();
+
+        double closest_temp = 0;
+        double current_closest = abs(temperatures[0]);
+        for (double temperature : temperatures){
+            if (current_closest == abs(temperature) && temperature > 0)
+                closest_temp = temperature;
+            else if (current_closest > abs(temperature)) {
+                current_closest = abs(temperature);
+                closest_temp = temperature;
+            }
+        }
+        return closest_temp;
     }
 
     public double findTempClosestToValue(double tempValue) {
