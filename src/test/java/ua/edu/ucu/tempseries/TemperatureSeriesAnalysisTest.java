@@ -7,7 +7,34 @@ import org.junit.Ignore;
 
 public class TemperatureSeriesAnalysisTest {
     @Test
-    public void testClosestToZeroOeClosestElements() {
+    public void testClosestToValueOneClosestElement() {
+        double[] temperatureSeries = {1.0, 2.0, 3.0, -2.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+        double expResult = 3.0;
+
+        double actualResult = seriesAnalysis.findTempClosestToValue(4.0);
+        assertEquals(expResult, actualResult, 0.0);
+    }
+
+    @Test
+    public void testClosestToValueTwoOppositeElements() {
+        double[] temperatureSeries = {1.0, 3.0, 4.0, 0.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+        double expResult = 3.0;
+
+        double actualResult = seriesAnalysis.findTempClosestToValue(2.0);
+        assertEquals(expResult, actualResult, 0.0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testClosestToValueEmptyArray() {
+        double[] temperatureSeries = {};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+        double actualResult = seriesAnalysis.findTempClosestToValue(0.0);
+    }
+
+    @Test
+    public void testClosestToZeroOeClosestElement() {
         double[] temperatureSeries = {1.0, 2.0, 3.0, -2.0};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
         double expResult = 1.0;
@@ -26,14 +53,12 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(expResult, actualResult, 0.0);
     }
 
-
     @Test(expected = IllegalArgumentException.class)
     public void testClosestToZeroEmptyArray() {
         double[] temperatureSeries = {};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
         double actualResult = seriesAnalysis.findTempClosestToZero();
     }
-
 
     @Test
     public void testMinValueNormalArray() {

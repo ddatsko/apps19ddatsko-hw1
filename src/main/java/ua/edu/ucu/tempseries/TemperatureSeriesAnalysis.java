@@ -1,19 +1,27 @@
 package ua.edu.ucu.tempseries;
 
+import jdk.nashorn.internal.objects.annotations.Function;
+import jdk.nashorn.internal.runtime.FunctionInitializer;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 public class TemperatureSeriesAnalysis {
 
     private double[] temperatures;
+    private int capacity;
+    private int temperaturesNum;
 
     public TemperatureSeriesAnalysis() {
-        temperatures = new double[0];
-
+        temperatures = new double[1];
+        capacity = 1;
+        temperaturesNum = 0;
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
         temperatures = temperatureSeries;
+        capacity = temperatures.length;
+        temperaturesNum = capacity;
     }
 
     public double average() {
@@ -48,38 +56,47 @@ public class TemperatureSeriesAnalysis {
         if (temperatures.length == 0)
             throw new IllegalArgumentException();
         double m = temperatures[0];
-        for (double temperature: temperatures)
+        for (double temperature : temperatures)
             m = Math.max(temperature, m);
         return m;
     }
 
     public double findTempClosestToZero() {
+        return findTempClosestToValue(0.0);
+    }
+
+    public double findTempClosestToValue(double tempValue) {
         if (temperatures.length == 0)
             throw new IllegalArgumentException();
 
-        double closest_temp = 0;
-        double current_closest = abs(temperatures[0]);
-        for (double temperature : temperatures){
-            if (current_closest == abs(temperature) && temperature > 0)
+        double closest_temp = temperatures[0];
+        double current_closest = abs(temperatures[0] - tempValue);
+        for (double temperature : temperatures) {
+            if (current_closest == abs(temperature - tempValue) && temperature > tempValue)
                 closest_temp = temperature;
-            else if (current_closest > abs(temperature)) {
-                current_closest = abs(temperature);
+            else if (current_closest > abs(temperature - tempValue)) {
+                current_closest = abs(temperature - tempValue);
                 closest_temp = temperature;
             }
         }
         return closest_temp;
     }
 
-    public double findTempClosestToValue(double tempValue) {
-        return 0;
+
+    private double[] findTempsWithCondition(boolean greater, double tempValue) {
+        TemperatureSeriesAnalysis tempsLess = new TemperatureSeriesAnalysis();
+        for (double temperature : temperatures)
+            if ((temperature > tempValue && greater) || (temperature < tempValue && !greater))
+                tempsLess.addTemps(temperature);
+        return tempsLess.temperatures;
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        return null;
+        return findTempsWithCondition(false, tempValue);
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        return null;
+        return findTempsWithCondition(true, tempValue);
     }
 
     public TempSummaryStatistics summaryStatistics() {
