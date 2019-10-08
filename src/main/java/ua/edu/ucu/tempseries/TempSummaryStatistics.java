@@ -1,7 +1,7 @@
 package ua.edu.ucu.tempseries;
 
 public class TempSummaryStatistics {
-    double avgTemp, devTemp, minTemp, maxTemp;
+    private double avgTemp, devTemp, minTemp, maxTemp;
 
     TempSummaryStatistics(double avgTemp, double devTemp,
                           double minTemp, double maxTemp) {
@@ -16,11 +16,20 @@ public class TempSummaryStatistics {
     }
 
     @Override
+    public int hashCode() {
+        return new Double(avgTemp + minTemp + maxTemp + devTemp).hashCode();
+    }
+
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof TempSummaryStatistics)) {
             return false;
         }
         TempSummaryStatistics other = (TempSummaryStatistics) o;
+        if (hashCode() != other.hashCode()) {
+            return false;
+        }
         return equalTemp(avgTemp, other.getAvgTemp())
                 && equalTemp(devTemp, other.getDevTemp())
                 && equalTemp(minTemp, other.getMinTemp())

@@ -1,6 +1,5 @@
 package ua.edu.ucu.tempseries;
 
-import java.lang.Math;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
@@ -45,7 +44,8 @@ public class TemperatureSeriesAnalysis {
         double mean = average();
         double quadraticSum = 0;
         for (int i = 0; i < temperaturesNum; i++) {
-            quadraticSum += Math.abs(temperatures[i] - mean) * Math.abs(temperatures[i] - mean);
+            quadraticSum += Math.abs(temperatures[i] - mean)
+                    * Math.abs(temperatures[i] - mean);
         }
         return quadraticSum / temperaturesNum;
     }
@@ -84,9 +84,9 @@ public class TemperatureSeriesAnalysis {
         double closestTemp = temperatures[0];
         double currentClosest = Math.abs(temperatures[0] - tempValue);
         for (int i = 0; i < temperaturesNum; i++) {
-            if (Math.abs(currentClosest -
-                    Math.abs(temperatures[i] -
-                            tempValue)) <= DELTA
+            if (Math.abs(currentClosest
+                    - Math.abs(temperatures[i]
+                    - tempValue)) <= DELTA
                     && temperatures[i] > tempValue) {
                 closestTemp = temperatures[i];
             } else if (currentClosest > Math.abs(temperatures[i] - tempValue)) {
