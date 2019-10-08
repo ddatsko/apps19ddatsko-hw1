@@ -35,6 +35,12 @@ public class TemperatureSeriesAnalysisTest {
         TempSummaryStatistics tempTwo = new TempSummaryStatistics(1, 1, 1, 1);
         assertNotEquals(tempOne, tempTwo);
     }
+    @Test
+    public void testTempSummaryEqualsAreEqual() {
+        TempSummaryStatistics tempOne = new TempSummaryStatistics(1, 1, 1, 1);
+        TempSummaryStatistics tempTwo = new TempSummaryStatistics(1, 1, 1, 1);
+        assertEquals(tempOne, tempTwo);
+    }
 
     @Test
     public void testTempSummaryEqualsAnotherClass() {
@@ -85,7 +91,7 @@ public class TemperatureSeriesAnalysisTest {
     @Test
     public void testGreaterThanSimpleSeries() {
         double[] expResult = {1.0, 2.0, 3.0};
-        double[] actualResult = simpleSeries.findTempsGreaterThan(-2.0);
+        double[] actualResult = simpleSeries.findTempsGreaterThan(-1.0);
 
         assertArrayEquals(expResult, actualResult, 0.001);
     }
@@ -109,7 +115,7 @@ public class TemperatureSeriesAnalysisTest {
     @Test
     public void testLessThanSimpleSeries() {
         double[] expResult = {1.0, 2.0, -2.0};
-        double[] actualResult = simpleSeries.findTempsLessThan(3.0);
+        double[] actualResult = simpleSeries.findTempsLessThan(2.5);
 
         assertArrayEquals(expResult, actualResult, 0.001);
     }
