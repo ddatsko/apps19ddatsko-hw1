@@ -1,22 +1,30 @@
 package ua.edu.ucu.tempseries;
 
 public class TempSummaryStatistics {
-    final private double avgTemp, devTemp, minTemp, maxTemp;
+    double avgTemp, devTemp, minTemp, maxTemp;
 
-    TempSummaryStatistics(double avgTemp, double devTemp, double minTemp, double maxTemp) {
+    TempSummaryStatistics(double avgTemp, double devTemp,
+                          double minTemp, double maxTemp) {
         this.avgTemp = avgTemp;
         this.devTemp = devTemp;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
     }
 
-    private boolean equalTemp(double temp1, double temp2) {
-        return Math.abs(temp1 - temp2) < 1e-5;
+    private boolean equalTemp(double tempOne, double tempTwo) {
+        return Math.abs(tempOne - tempTwo) < TemperatureSeriesAnalysis.DELTA;
     }
 
-    boolean equals(TempSummaryStatistics other) {
-        return equalTemp(avgTemp, other.getAvgTemp()) && equalTemp(devTemp, other.getDevTemp()) &&
-                equalTemp(minTemp, other.getMinTemp()) && equalTemp(maxTemp, other.getMaxTemp());
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TempSummaryStatistics)) {
+            return false;
+        }
+        TempSummaryStatistics other = (TempSummaryStatistics) o;
+        return equalTemp(avgTemp, other.getAvgTemp())
+                && equalTemp(devTemp, other.getDevTemp())
+                && equalTemp(minTemp, other.getMinTemp())
+                && equalTemp(maxTemp, other.getMaxTemp());
     }
 
     public double getAvgTemp() {
