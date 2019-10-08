@@ -22,6 +22,40 @@ public class TemperatureSeriesAnalysisTest {
         longSeries = new TemperatureSeriesAnalysis(new double[]{2.0, 5.0, -1.0, 1.0, 5.0, -10.0});
     }
 
+    @Test
+    public void testTempSummaryStatistics() {
+        TempSummaryStatistics actualResult = simpleSeries.summaryStatistics();
+        TempSummaryStatistics expResult = new TempSummaryStatistics(1.0, 3.5, -2.0, 3.0);
+
+        assertTrue(actualResult.equals(expResult));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTempSummaryStatisticsEmptySeries() {
+        TempSummaryStatistics actualResult = emptySeries.summaryStatistics();
+    }
+
+    @Test
+    public void testTempSummaryStatisticsSameValueSeries() {
+        TempSummaryStatistics actualResult = sameElementsSeries.summaryStatistics();
+        TempSummaryStatistics expResult = new TempSummaryStatistics(1.0, 0.0, 1.0, 1.0);
+
+        assertTrue(actualResult.equals(expResult));
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testAddTemperaturesVeryLowTemps() {
+        simpleSeries.addTemps(-275);
+    }
+
+    @Test
+    public void testAddTemperaturesSimpleSeries() {
+        int expResult = 7;
+        int actualResult = simpleSeries.addTemps(1.0, 0.0, 2.0);
+
+        assertEquals(expResult, actualResult);
+    }
+
     @Test(expected = InputMismatchException.class)
     public void testConstructorImpossibleTemperatures() {
         new TemperatureSeriesAnalysis(new double[] {-274, -271});

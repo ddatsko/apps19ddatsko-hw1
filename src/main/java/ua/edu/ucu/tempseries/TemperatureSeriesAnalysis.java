@@ -10,21 +10,17 @@ import static java.lang.Math.pow;
 
 public class TemperatureSeriesAnalysis {
 
-    public double[] getTemperatures() {
-        return temperatures;
-    }
-
     private double[] temperatures;
     private int capacity;
     private int temperaturesNum;
 
-    public TemperatureSeriesAnalysis() {
+    TemperatureSeriesAnalysis() {
         temperatures = new double[1];
         capacity = 1;
         temperaturesNum = 0;
     }
 
-    public TemperatureSeriesAnalysis(double[] temperatureSeries) {
+    TemperatureSeriesAnalysis(double[] temperatureSeries) {
         this();
         for (double temperature : temperatureSeries) {
             if (temperature < -273)
@@ -35,7 +31,7 @@ public class TemperatureSeriesAnalysis {
         temperaturesNum = capacity;
     }
 
-    public double average() {
+    double average() {
         if (temperaturesNum == 0)
             throw new IllegalArgumentException();
         double sum = 0;
@@ -46,7 +42,7 @@ public class TemperatureSeriesAnalysis {
     }
 
 
-    public double deviation() {
+    double deviation() {
         double mean = average();
         double quadraticSum = 0;
         for (int i = 0; i < temperaturesNum; i++) {
@@ -55,7 +51,7 @@ public class TemperatureSeriesAnalysis {
         return quadraticSum / temperaturesNum;
     }
 
-    public double min() {
+    double min() {
         if (temperaturesNum == 0)
             throw new IllegalArgumentException();
         double m = temperatures[0];
@@ -64,7 +60,7 @@ public class TemperatureSeriesAnalysis {
         return m;
     }
 
-    public double max() {
+    double max() {
         if (temperaturesNum == 0)
             throw new IllegalArgumentException();
         double m = temperatures[0];
@@ -73,11 +69,11 @@ public class TemperatureSeriesAnalysis {
         return m;
     }
 
-    public double findTempClosestToZero() {
+    double findTempClosestToZero() {
         return findTempClosestToValue(0.0);
     }
 
-    public double findTempClosestToValue(double tempValue) {
+    double findTempClosestToValue(double tempValue) {
         if (temperaturesNum == 0)
             throw new IllegalArgumentException();
 
@@ -105,16 +101,12 @@ public class TemperatureSeriesAnalysis {
         return res;
     }
 
-    public double[] findTempsLessThan(double tempValue) {
+    double[] findTempsLessThan(double tempValue) {
         return findTempsWithCondition(false, tempValue);
     }
 
-    public double[] findTempsGreaterThan(double tempValue) {
+    double[] findTempsGreaterThan(double tempValue) {
         return findTempsWithCondition(true, tempValue);
-    }
-
-    public TempSummaryStatistics summaryStatistics() {
-        return null;
     }
 
     private void addOneTemp(double temp) {
@@ -128,7 +120,12 @@ public class TemperatureSeriesAnalysis {
         temperaturesNum++;
     }
 
-    public int addTemps(double... temps) {
+    TempSummaryStatistics summaryStatistics() {
+        return new TempSummaryStatistics(average(), deviation(), min(), max());
+    }
+
+
+    int addTemps(double... temps) {
         for (double temp : temps) {
             if (temp < -273)
                 throw new InputMismatchException();
