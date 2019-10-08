@@ -101,8 +101,10 @@ public class TemperatureSeriesAnalysis {
     private double[] findTempsWithCondition(boolean greater, double tempValue) {
         TemperatureSeriesAnalysis tempsLess = new TemperatureSeriesAnalysis();
         for (int i = 0; i < temperaturesNum; i++) {
-            if (temperatures[i] > tempValue && greater
-                    || temperatures[i] < tempValue && !greater) {
+            if (temperatures[i] > tempValue
+                    && greater
+                    || temperatures[i] < tempValue
+                    && !greater) {
                 tempsLess.addTemps(temperatures[i]);
             }
         }

@@ -23,6 +23,13 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void testTempSummaryStatEqualsEqualHashCodes() {
+        TempSummaryStatistics tempOne = new TempSummaryStatistics(1, 0, 0, 0);
+        TempSummaryStatistics tempTwo = new TempSummaryStatistics(0, 0, 0, 1);
+        assertNotEquals(tempOne, tempTwo);
+    }
+
+    @Test
     public void testTempSummaryEqualsNotEqual() {
         TempSummaryStatistics tempOne = new TempSummaryStatistics(0, 0, 0, 0);
         TempSummaryStatistics tempTwo = new TempSummaryStatistics(1, 1, 1, 1);
