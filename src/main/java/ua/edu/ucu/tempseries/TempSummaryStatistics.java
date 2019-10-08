@@ -17,7 +17,7 @@ public class TempSummaryStatistics {
 
     @Override
     public int hashCode() {
-        return new Double(avgTemp + minTemp + maxTemp + devTemp).hashCode();
+        return Double.valueOf(avgTemp + minTemp + maxTemp + devTemp).hashCode();
     }
 
 
